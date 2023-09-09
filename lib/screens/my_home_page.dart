@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:imc_app/models/pessoa.dart';
+import 'package:imc_app/widget/text_form_field.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -61,72 +62,46 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
               const SizedBox(height: 20),
-              Container(
-                color: Colors.white,
-                height: 70,
-                width: 140,
-                child: TextFormField(
-                  textAlign: TextAlign.center,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  decoration: const InputDecoration(
-                    labelText: 'Idade',
-                    hintText: 'Ex:21',
-                    border: OutlineInputBorder(),
-                  ),
-                  controller: idadeController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Não pode ser vazio";
-                    }
-                    return null;
-                  },
-                ),
+              ATextFormField(
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                controller: idadeController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Não pode ser vazio";
+                  }
+                  return null;
+                },
+                labelText: 'Idade',
+                hintText: 'Ex:21',
               ),
               const SizedBox(height: 20),
-              Container(
-                color: Colors.white,
-                height: 70,
-                width: 140,
-                child: TextFormField(
-                  textAlign: TextAlign.center,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  decoration: const InputDecoration(
-                    labelText: 'Peso (Kg)',
-                    hintText: 'Ex:74.5',
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Não pode ser vazio";
-                    }
-                    return null;
-                  },
-                  controller: pesoController,
-                ),
+              ATextFormField(
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                hintText: 'Ex:74.5',
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Não pode ser vazio";
+                  }
+                  return null;
+                },
+                controller: pesoController,
+                labelText: 'Peso (Kg)',
               ),
               const SizedBox(height: 20),
-              Container(
-                color: Colors.white,
-                height: 70,
-                width: 140,
-                child: TextFormField(
-                  textAlign: TextAlign.center,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    labelText: 'Altura (M)',
-                    hintText: 'Ex:1.65 M',
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Não pode ser vazio";
-                    }
-                    return null;
-                  },
-                  controller: alturaController,
-                ),
+              ATextFormField(
+                labelText: 'Altura (cm)',
+                hintText: 'Ex:165 cm',
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Não pode ser vazio";
+                  }
+                  return null;
+                },
+                controller: alturaController,
               ),
               const SizedBox(height: 50),
               SizedBox(
@@ -183,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   String calcularImc({required double peso, required double altura}) {
-    double imc = peso / (altura * altura);
+    double imc = peso / (altura / 100 * altura / 100);
 
     if (imc < 16) {
       return 'Magreza grave ${imc.toStringAsFixed(2)}';
